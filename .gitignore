@@ -1,0 +1,54 @@
+# Build outputs
+bin/
+obj/
+**/bin/
+**/obj/
+**/build/
+**/.gradle/
+node_modules/
+
+# Local unpacked APK/SDK work directories
+apk_compact/
+apk_unpacked/
+apktool_compact/
+apktool_full_ldm/
+gd*_apktool/
+gd*_stage/
+gd2208_hdonly/
+gd2208_nohd/
+gd2208_unpacked/
+gd22081_both/
+gd22081_display_fix/
+gd22081_repack/
+gd22081_targeted/
+gd22081_targeted_build/
+HuaweiHealth_apktool/
+ldm_full_stage/
+ldm_stage/
+tmp_assets_diag/
+tools/android-sdk/
+tools/jdk-*/
+tools/platform-tools/
+gradle-*/
+
+# Generated Android packages and local installers
+*.apk
+*.apk.idsig
+*.aab
+*.apks
+*.idsig
+*.zip
+*.exe
+
+# Local signing keys and credentials
+*.keystore
+*.jks
+*.p12
+*.pem
+*.key
+*.env
+
+# OS/editor files
+desktop.ini
+.DS_Store
+Thumbs.db
