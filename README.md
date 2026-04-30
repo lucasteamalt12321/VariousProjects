@@ -1,1 +1,3 @@
 # VariousProjects
+
+Initial repository setup.
