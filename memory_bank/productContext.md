@@ -2,22 +2,35 @@
 
 ## User Goal
 
-Пользователь хочет разрабатывать приложения, которые запускаются НА самих часах Huawei Band 10 (не companion на телефоне). Пример: калькулятор.
+Пользователь хочет превратить Android APK **2 3 4 Player Mini Games** в вариант, который запускается на Windows как `.exe` или другой Windows-поддерживаемый пакет.
 
-## User Experience
+## Target Experience
 
-- Huawei Band 10 на руке пользователя
-- Ранее не занимался разработкой под носимые устройства
+- Пользователь запускает Windows launcher.
+- Launcher автоматически поднимает Android runtime/emulator.
+- APK устанавливается или обновляется без ручных действий пользователя.
+- Игра стартует в окне или fullscreen.
+- Управление выполняется с клавиатуры для 2-4 локальных игроков.
+
+## Source Artifact
+
+- `C:\Users\admin\Documents\GD-shrink\2_3_4_player_mini_games_v5_8_2.apk`
+
+## Current Decision
+
+Выбран **Variant A**: Windows launcher + Android runtime/emulator + keyboard mapping.
+
+Причина: APK нельзя надежно конвертировать в native `.exe` одной командой. APK содержит Android-приложение и GameMaker/YoYo Android runtime, поэтому самый практичный путь - запускать его внутри Android runtime, скрывая сложность за Windows launcher.
 
 ## Constraints
 
-- Huawei Band 10 does not appear to expose an obvious direct ADB path.
-- Official Huawei developer access is partially blocked until Huawei Developer Console is available and usable.
-- Direct BLE discovery has not yielded a stable, clearly identified Band 10 advertisement.
-- Band 10 работает на Huawei Lite OS (RTOS) - нужен соответствующий SDK.
-- Публичный Huawei Wear Engine решает companion-сценарии через Android-телефон и не является SDK для установки приложений непосредственно на Band 10.
-- Пока не найдено публичного подтверждения, что Band 10 поддерживает пользовательские сторонние приложения; наиболее подтвержденный канал кастомизации - циферблаты/ресурсы через Huawei Health.
+- Это practical wrapper, а не native Windows port.
+- Итоговый пакет может быть крупным из-за Android runtime/emulator.
+- Keyboard mapping должен учитывать touch-зоны игры и одновременный ввод 2-4 игроков.
+- Распространение APK/ассетов/брендинга может требовать прав правообладателя; текущий технический фокус - personal-use/локальный запуск.
+- Не выполнять обход DRM, платежей, рекламы или защит.
 
-## Current Product Direction (ПЕРЕСМОТР)
+## Alternatives Deferred
 
-Цель - разработка приложений под саму систему часов (Lite OS), а не companion на телефон.
+- GameMaker reverse engineering `assets/game.droid` для потенциального native-like порта отложен как рискованный исследовательский путь.
+- Clean remake отложен, потому что пользователь хочет использовать имеющийся APK.

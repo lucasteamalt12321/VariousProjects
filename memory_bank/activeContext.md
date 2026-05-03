@@ -2,28 +2,67 @@
 
 ## Current Focus
 
-Фокус изменился: теперь цель - разработка приложений, которые запускаются НА самих часах Huawei Band 10 (Lite OS), а не companion на телефон.
+Текущая задача: начать **Variant A** для `2_3_4_player_mini_games_v5_8_2.apk` - сделать Windows-запускаемый вариант через Android runtime/emulator и клавиатурный mapping.
 
-## Что уже сделано (предыдущее)
+## User Request
 
-- BLE scanning из PC не дал четкого идентифицируемого устройства Band 10.
-- `HuaweiHealth-base.apk` выгружен с телефона.
-- Создан Android companion проект в `band10-companion/`.
+Пользователь уточнил: нужно не переписывать игру, а превратить APK в `.exe` или другой Windows-поддерживаемый запуск. После объяснения вариантов выбран Variant A.
 
-## Текущая задача
+## Known APK Facts
 
-Продолжить исследование разработки под Huawei Band 10: проверить наличие официального Lite OS / wearable SDK, выяснить поддерживается ли установка сторонних приложений на Band 10, и отделить реальный путь разработки под часы от companion-подхода через Android.
+- Локальный APK: `2_3_4_player_mini_games_v5_8_2.apk`.
+- Размер APK: около 78 MB (`81802469` bytes).
+- APK содержит признаки GameMaker/YoYo runtime:
+  - `lib/arm64-v8a/libyoyo.so`
+  - `lib/armeabi-v7a/libyoyo.so`
+  - `lib/x86_64/libyoyo.so`
+  - `assets/game.droid`
+  - `assets/options.ini`
+- В APK есть `x86_64` native library, что полезно для Android emulator/runtime на Windows.
+- APK содержит музыку и звуки в `assets/*.ogg`.
 
-## Найдено 2026-04-29
+## Device APK Facts
 
-- В `HuaweiHealth_apktool/assets/product_map.json` Band 10 явно присутствует как семейство `NOR`: `NOR-B19` (`deviceId` 823), `NOR-B29` (`deviceId` 824), `NOR-B39` (`deviceId` 825), общий `productId` `356aab94-7fec-465b-8936-8afff0c7d811`, `deviceType` `06E`.
-- Публичный Huawei Wear Engine, найденный на developer.huawei.com, предназначен для Android-приложений на телефоне: список сопряженных wearables, статусы, сенсоры, уведомления и phone-wearable communication. Это не SDK для сборки и установки нативных приложений прямо на Band 10.
-- В Huawei Health есть конфиги `com.huawei.hms.opendevicesdk` (`assets/grs_sdk_global_route_config_opendevicesdk.json`) и `com.huawei.watchface` (`assets/grs_sdk_global_route_config_watchfaceconnector.json`). Это подтверждает наличие закрытого/внутреннего слоя устройств и отдельного канала циферблатов.
-- В `assets/arkui-x/arkuix/resources/rawfile/serviceId_40.json` есть схема передачи файлов с полями `fileName`, `fileType`, `srcPkgName`, `desPkgName`, `watchfaceId`, `watchfaceVersion`, `srcCertificate`, `destCertificate`. Пока это выглядит как служебный протокол передачи ресурсов/циферблатов, а не доказательство установки произвольных приложений.
-- В текущих найденных публичных материалах нет подтверждения, что Huawei Band 10 поддерживает установку сторонних нативных приложений пользователем.
+На подключенном Android-телефоне были найдены два похожих пакета:
 
-## Next Step
+- `com.ction.playergames` - версия `5.7.4`, launcher activity `.RunnerActivity`, установлен из `com.android.vending`.
+- `com.PlayMax.playergames` - Unity-приложение, версия `2.4.9.2`, launcher activity `com.unity3d.player.UnityPlayerActivity`.
 
-1. Исследовать путь установки/передачи пакетов через Huawei Health: `watchface`, `opendevicesdk`, `serviceId_40` и связанные smali-вызовы.
-2. Найти, какие `fileType`/`resourceType` поддерживаются для Band 10 и есть ли тип, похожий на приложение, а не циферблат/ресурс.
-3. Проверить официальные ограничения Band 10: поддерживает ли модель `NOR-*` вообще сторонние приложения или только циферблаты/служебные ресурсы.
+Локальный APK `v5.8.2` по структуре соответствует GameMaker/YoYo-пути, а не Unity.
+
+## Working Plan
+
+1. Выбрать Android runtime/emulator для автоматизированного Windows запуска.
+2. Проверить установку и запуск APK через `windows-launcher` на видимом ADB runtime/device.
+3. Настроить клавиатурный mapping для touch-зон игры в выбранном runtime/emulator.
+4. Расширить launcher под выбранный runtime: fullscreen/window management, boot wait, logs.
+5. Упаковать рабочий комплект и проверить запуск.
+
+## Current Implementation
+
+- Добавлен проект `windows-launcher/PlayerGamesLauncher.csproj`.
+- `windows-launcher/Program.cs` реализует консольный launcher:
+  - читает `launcher-config.json`;
+  - проверяет ADB и APK;
+  - опционально запускает Android runtime executable из конфига;
+  - запускает ADB server;
+  - ждет устройство/runtime через `adb wait-for-device`;
+  - устанавливает APK в режиме `ifMissing`/`always`/`skip`;
+  - запускает `package/activity` через `adb shell am start` или fallback `monkey`.
+- `windows-launcher/keymap.example.json` содержит стартовые keyboard profiles для 2 и 4 игроков.
+- Локально `java` не найден в `PATH`, поэтому apktool-анализ пока не использован; package/activity взяты из установленного пакета `com.ction.playergames` и должны быть подтверждены запуском локального APK.
+- Dry-run `dotnet run --project windows-launcher -- --no-install` успешно отработал на подключенном ADB-устройстве `0C64924I2510270B` и запустил `com.ction.playergames/.RunnerActivity`.
+- По просьбе пользователя BlueStacks не используется в текущей сессии. BlueStacks-specific код и sample config были удалены из launcher.
+- Добавлены neutral/example конфиги для альтернативных runtime:
+  - `windows-launcher/configs/manual-adb.json`
+  - `windows-launcher/configs/android-studio-emulator.example.json`
+  - `windows-launcher/configs/ldplayer.example.json`
+  - `windows-launcher/configs/nox.example.json`
+- Локально альтернативный Android runtime/emulator не найден: Android SDK emulator, LDPlayer, Nox, MEmu, Genymotion, MuMu, GameLoop и WSA не обнаружены в обычных путях/registry.
+
+## Notes
+
+- Старый фокус Huawei Band 10 закрыт и больше не является текущей целью проекта.
+- Не вносить изменения в APK без отдельной необходимости; первый путь - wrapper/runtime automation.
+- ADB input injection не выбран для финального игрового управления из-за ожидаемой задержки; keymap должен применяться средствами runtime/emulator или отдельной низкоуровневой интеграцией.
+- Следующий практический шаг: установить/подготовить non-BlueStacks runtime, предпочтительно Android Studio Emulator или LDPlayer/Nox, затем подключить его через соответствующий config.

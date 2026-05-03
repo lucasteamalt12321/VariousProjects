@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "note": "Use this as the emulator/runtime keymap source. Do not use slow ADB tap injection for final real-time gameplay.",
+  "profiles": [
+    {
+      "name": "default-2-players",
+      "players": [
+        {
+          "player": 1,
+          "keys": {
+            "up": "W",
+            "left": "A",
+            "down": "S",
+            "right": "D",
+            "action1": "Space",
+            "action2": "LeftShift"
+          }
+        },
+        {
+          "player": 2,
+          "keys": {
+            "up": "Up",
+            "left": "Left",
+            "down": "Down",
+            "right": "Right",
+            "action1": "Enter",
+            "action2": "RightShift"
+          }
+        }
+      ]
+    },
+    {
+      "name": "default-4-players",
+      "players": [
+        {
+          "player": 1,
+          "keys": {
+            "up": "W",
+            "left": "A",
+            "down": "S",
+            "right": "D",
+            "action1": "Space",
+            "action2": "LeftShift"
+          }
+        },
+        {
+          "player": 2,
+          "keys": {
+            "up": "Up",
+            "left": "Left",
+            "down": "Down",
+            "right": "Right",
+            "action1": "Enter",
+            "action2": "RightShift"
+          }
+        },
+        {
+          "player": 3,
+          "keys": {
+            "up": "I",
+            "left": "J",
+            "down": "K",
+            "right": "L",
+            "action1": "U",
+            "action2": "O"
+          }
+        },
+        {
+          "player": 4,
+          "keys": {
+            "up": "Numpad8",
+            "left": "Numpad4",
+            "down": "Numpad5",
+            "right": "Numpad6",
+            "action1": "Numpad0",
+            "action2": "Numpad1"
+          }
+        }
+      ]
+    }
+  ]
+}

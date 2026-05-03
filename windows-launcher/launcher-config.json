@@ -1,0 +1,16 @@
+{
+  "adbPath": "tools\\platform-tools\\adb.exe",
+  "apkPath": "2_3_4_player_mini_games_v5_8_2.apk",
+  "packageName": "com.ction.playergames",
+  "activityName": ".RunnerActivity",
+  "deviceSerial": null,
+  "installMode": "ifMissing",
+  "allowDowngrade": false,
+  "runtimeExecutable": null,
+  "runtimeArguments": null,
+  "runtimeWorkingDirectory": null,
+  "keymapFile": "keymap.example.json",
+  "commandTimeoutSeconds": 60,
+  "deviceBootTimeoutSeconds": 180,
+  "installTimeoutSeconds": 300
+}

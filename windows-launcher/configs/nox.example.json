@@ -1,0 +1,17 @@
+{
+  "adbPath": "tools\\platform-tools\\adb.exe",
+  "apkPath": "2_3_4_player_mini_games_v5_8_2.apk",
+  "packageName": "com.ction.playergames",
+  "activityName": ".RunnerActivity",
+  "deviceSerial": "127.0.0.1:62001",
+  "adbConnectEndpoint": "127.0.0.1:62001",
+  "runtimeExecutable": "C:\\Program Files (x86)\\Nox\\bin\\Nox.exe",
+  "runtimeArguments": "",
+  "runtimeWorkingDirectory": "C:\\Program Files (x86)\\Nox\\bin",
+  "installMode": "ifMissing",
+  "allowDowngrade": false,
+  "keymapFile": "..\\keymap.example.json",
+  "commandTimeoutSeconds": 60,
+  "deviceBootTimeoutSeconds": 240,
+  "installTimeoutSeconds": 300
+}
