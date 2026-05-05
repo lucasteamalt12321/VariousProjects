@@ -169,11 +169,11 @@ function Dn(_0x43031d) {
   return LEVEL_META[_0x5ac7d0] || LEVEL_META[0x1];
 }
 function Gn(_0x3078fc) {
-  const _0x4aa312 = Math.max(0x1, Math.min(0x3b, parseInt(_0x3078fc || '1', 0xa) || 0x1));
+  const _0x4aa312 = Math.max(0x1, Math.min(0x3b, parseInt(_0x3078fc || '2', 0xa) || 0x2));
   return "game_bg_" + String(_0x4aa312).padStart(0x2, '0');
 }
 function Pn() {
-  const _0x413273 = "assets/1.txt";
+    const _0x413273 = "assets/levels/2.txt";
   try {
     const _0x4a5094 = new URLSearchParams(window.location.search).get("level");
     if (!_0x4a5094) {

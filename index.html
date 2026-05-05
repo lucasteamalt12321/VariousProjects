@@ -124,8 +124,8 @@
 
     function selectedLevelMeta() {
       var params = new URLSearchParams(window.location.search);
-      var level = parseInt(params.get('level') || '1', 10);
-      if (!Number.isFinite(level)) level = 1;
+      var level = parseInt(params.get('level') || '2', 10);
+      if (!Number.isFinite(level)) level = 2;
       return LEVELS.find(function (entry) { return entry.id === level; }) || LEVELS[0];
     }
 
