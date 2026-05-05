@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Geometry Dash</title>
+  <style>
+    * { margin: 0; padding: 0; }
+    body { overflow: hidden; }
+    canvas { display: block; margin: 0 auto; }
+    .level-picker {
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      z-index: 9998;
+      min-width: 300px;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: linear-gradient(135deg, rgba(18, 36, 56, 0.9), rgba(8, 14, 26, 0.9));
+      color: #e7f8ff;
+      font: 12px/1.4 Consolas, monospace;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+    }
+    .level-picker h2 {
+      font: 700 12px/1.2 Consolas, monospace;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+      color: #9de8ff;
+    }
+    .level-picker .row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .level-picker select,
+    .level-picker button {
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.35);
+      color: #e7f8ff;
+      padding: 6px 8px;
+      font: 12px/1.2 Consolas, monospace;
+    }
+    .level-picker select {
+      flex: 1;
+      min-width: 0;
+    }
+    .level-picker button {
+      cursor: pointer;
+      background: linear-gradient(180deg, #26b6d4, #1b7995);
+      color: #f4feff;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    .level-picker .song {
+      margin-top: 6px;
+      color: #8fe0ff;
+      opacity: 0.9;
+    }
+    @media (max-width: 700px) {
+      .level-picker {
+        left: 10px;
+        right: 10px;
+        top: 10px;
+        min-width: 0;
+      }
+    }
+  </style>
+  <script defer src="./vendor.js"></script>
+  <script defer src="./game.js"></script>
+  <script>
+    function showBootError(message) {
+      var panel = document.createElement('pre');
+      panel.textContent = message;
+      panel.style.position = 'fixed';
+      panel.style.left = '12px';
+      panel.style.right = '12px';
+      panel.style.top = '12px';
+      panel.style.zIndex = '99999';
+      panel.style.padding = '10px 12px';
+      panel.style.background = 'rgba(0,0,0,0.85)';
+      panel.style.color = '#ff7878';
+      panel.style.border = '1px solid #ff4d4f';
+      panel.style.borderRadius = '8px';
+      panel.style.font = '12px/1.4 Consolas, monospace';
+      panel.style.whiteSpace = 'pre-wrap';
+      document.body.appendChild(panel);
+    }
+
+    window.addEventListener('error', function (event) {
+      showBootError('Runtime error: ' + (event.message || 'unknown'));
+    });
+
+    window.addEventListener('unhandledrejection', function (event) {
+      var reason = event && event.reason ? String(event.reason) : 'unknown';
+      showBootError('Unhandled rejection: ' + reason);
+    });
+
+    var LEVELS = [
+      { id: 1, name: 'Stereo Madness', song: 'StereoMadness.mp3' },
+      { id: 2, name: 'Back on Track', song: 'BackOnTrack.mp3' },
+      { id: 3, name: 'Polargeist', song: 'Polargeist.mp3' },
+      { id: 4, name: 'Dry Out', song: 'DryOut.mp3' },
+      { id: 5, name: 'Base After Base', song: 'BaseAfterBase.mp3' },
+      { id: 6, name: "Can't Let Go", song: 'CantLetGo.mp3' },
+      { id: 7, name: 'Jumper', song: 'Jumper.mp3' },
+      { id: 8, name: 'Time Machine', song: 'TimeMachine.mp3' },
+      { id: 9, name: 'Cycles', song: 'Cycles.mp3' },
+      { id: 10, name: 'xStep', song: 'xStep.mp3' },
+      { id: 11, name: 'Clutterfunk', song: 'Clutterfunk.mp3' },
+      { id: 12, name: 'Theory of Everything', song: 'TheoryOfEverything.mp3' },
+      { id: 13, name: 'Electroman Adventures', song: 'Electroman.mp3' },
+      { id: 14, name: 'Clubstep', song: 'Clubstep.mp3' },
+      { id: 15, name: 'Electrodynamix', song: 'Electrodynamix.mp3' },
+      { id: 16, name: 'Hexagon Force', song: 'HexagonForce.mp3' },
+      { id: 17, name: 'Blast Processing', song: 'BlastProcessing.mp3' },
+      { id: 18, name: 'Theory of Everything 2', song: 'TheoryOfEverything2.mp3' },
+      { id: 19, name: 'Geometrical Dominator', song: 'GeometricalDominator.mp3' },
+      { id: 20, name: 'Deadlocked', song: 'Deadlocked.mp3' },
+      { id: 21, name: 'Fingerdash', song: 'Fingerdash.mp3' },
+      { id: 22, name: 'Dash', song: 'Dash.mp3' }
+    ];
+
+    function selectedLevelMeta() {
+      var params = new URLSearchParams(window.location.search);
+      var level = parseInt(params.get('level') || '1', 10);
+      if (!Number.isFinite(level)) level = 1;
+      return LEVELS.find(function (entry) { return entry.id === level; }) || LEVELS[0];
+    }
+
+    function updateTitleFromQuery() {
+      var meta = selectedLevelMeta();
+      document.title = 'Geometry Dash - ' + meta.name;
+    }
+
+    function mountLevelSelector() {
+      var meta = selectedLevelMeta();
+      var wrap = document.createElement('section');
+      wrap.className = 'level-picker';
+      wrap.innerHTML =
+        '<h2>Level Selector</h2>' +
+        '<div class="row">' +
+          '<select id="gdLevelSelect"></select>' +
+          '<button id="gdLevelLoad" type="button">Load</button>' +
+        '</div>' +
+        '<div class="song" id="gdSongInfo"></div>';
+      document.body.appendChild(wrap);
+
+      var select = document.getElementById('gdLevelSelect');
+      var songInfo = document.getElementById('gdSongInfo');
+      LEVELS.forEach(function (entry) {
+        var option = document.createElement('option');
+        option.value = String(entry.id);
+        option.textContent = entry.id + '. ' + entry.name;
+        if (entry.id === meta.id) option.selected = true;
+        select.appendChild(option);
+      });
+
+      function refreshSongInfo() {
+        var id = parseInt(select.value, 10);
+        var current = LEVELS.find(function (entry) { return entry.id === id; }) || LEVELS[0];
+        songInfo.textContent = 'Song: ' + current.song;
+      }
+      refreshSongInfo();
+      select.addEventListener('change', refreshSongInfo);
+
+      document.getElementById('gdLevelLoad').addEventListener('click', function () {
+        var params = new URLSearchParams(window.location.search);
+        params.set('level', select.value);
+        window.location.search = params.toString();
+      });
+    }
+
+    updateTitleFromQuery();
+
+    window.addEventListener('load', function () {
+      mountLevelSelector();
+      setTimeout(function () {
+        var hasCanvas = !!document.querySelector('canvas');
+        if (!hasCanvas) {
+          var hasPhaser = typeof window.Phaser !== 'undefined';
+          showBootError('Boot watchdog: no canvas created. Phaser loaded: ' + hasPhaser + '. Open DevTools Network and confirm reconstructed_vendor_bundle.js and reconstructed_game_logic.js return 200.');
+        }
+      }, 1200);
+    });
+
+    // Keep resize behavior aligned with the original runner.
+    new ResizeObserver(() => {
+      window.dispatchEvent(new Event('resize'));
+    }).observe(document.documentElement);
+  </script>
+</head>
+<body>
+</body>
+</html>
