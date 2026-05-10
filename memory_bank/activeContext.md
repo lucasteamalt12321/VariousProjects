@@ -67,9 +67,10 @@
 - **Termux v0.118.3** установлен на телефон `0C64924I2510270B` через ADB (`adb install`).
 - **Node.js v25.8.2** установлен в Termux через `pkg install nodejs`.
 - **OpenCode v1.14.46** установлен в `~/.opencode/bin/` через официальный скрипт `curl -fsSL https://opencode.ai/install | bash`.
-- `~/.bashrc` модифицирован через ADB (добавлен `export PATH=...`), но требуется ручная проверка в Termux.
-- **Проблема:** ADB `input` service периодически падает с ошибкой `Failure calling service input: Failed transaction (2147483646)` при попытке отправки команд в Termux. Возможно, связано с блокировкой экрана или перегрузкой input service.
-- **Следующий шаг:** В Termux на телефоне выполнить `source ~/.bashrc` или перезапустить Termux, затем `opencode --version`.
+- Создан скрипт `/sdcard/setup_opencode.sh` для настройки PATH и проверки версии.
+- **Проблема при запуске:** `opencode --version` выдает ошибку `bash: export: '--version': not a valid identifier`. Возможно, бинарник отсутствует или файл `opencode` является shell-скриптом с некорректным заголовком.
+- Создан диагностический скрипт `/sdcard/diag.sh` для проверки содержимого `~/.opencode/bin/` и тестового запуска.
+- **Следующий шаг:** Запустить диагностический скрипт в Termux и по результатам решить: переустановить OpenCode, или исправить бинарник, или использовать альтернативный способ установки.
 
 ## Notes
 

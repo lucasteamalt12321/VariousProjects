@@ -36,7 +36,8 @@
 - 2026-05-10: В Termux установлен Node.js v25.8.2 (`pkg install nodejs`).
 - 2026-05-10: OpenCode v1.14.46 установлен в `~/.opencode/bin/` через официальный install-скрипт. Установка завершена успешно.
 - 2026-05-10: Попытки автоматической настройки PATH и проверки `opencode --version` через ADB `input text` привели к периодическим сбоям `input` service (`Failure calling service input: Failed transaction`). Требуется ручное завершение в Termux на устройстве.
+- 2026-05-10 (продолжение): Создан `/sdcard/setup_opencode.sh` и запущен в Termux. Команда `opencode --version` возвращает ошибку `bash: export: '--version': not a valid identifier`. Создан диагностический скрипт `/sdcard/diag.sh` для проверки содержимого `~/.opencode/bin/`. Проблема ещё не решена.
 
 ## last_checked_commit
 
-6468cd20a7db3bd97c82f1133772a6f82f22031e
+bb9aab149558a98b41dd0f99fd91b10e8179171e
