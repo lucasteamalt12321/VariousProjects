@@ -30,7 +30,13 @@
 - 2026-05-01: По просьбе пользователя BlueStacks исключен из текущей сессии; BlueStacks-specific code/config удалены. Добавлены runtime-neutral example configs для manual ADB, Android Studio Emulator, LDPlayer и Nox.
 - 2026-05-01: Проверка альтернативных runtime не нашла установленный Android Studio Emulator/LDPlayer/Nox/MEmu/Genymotion/MuMu/GameLoop/WSA. Launcher успешно собирается и manual ADB smoke test остается рабочим.
 - 2026-05-10: Синхронизация локального репозитория с GitHub. Применены изменения из удаленной ветки origin/master с приоритетом GitHub в случае конфликтов.
+- 2026-05-10: APK `2_3_4_player_mini_games_v5_8_2.apk` успешно восстановлен с подключенного телефона через ADB.
+- 2026-05-10: Пользователь запросил установку OpenCode (opencode.ai) на подключенный телефон.
+- 2026-05-10: Скачан и установлен Termux v0.118.3 с F-Droid на телефон `0C64924I2510270B` через ADB.
+- 2026-05-10: В Termux установлен Node.js v25.8.2 (`pkg install nodejs`).
+- 2026-05-10: OpenCode v1.14.46 установлен в `~/.opencode/bin/` через официальный install-скрипт. Установка завершена успешно.
+- 2026-05-10: Попытки автоматической настройки PATH и проверки `opencode --version` через ADB `input text` привели к периодическим сбоям `input` service (`Failure calling service input: Failed transaction`). Требуется ручное завершение в Termux на устройстве.
 
 ## last_checked_commit
 
-ca64b82
+6468cd20a7db3bd97c82f1133772a6f82f22031e

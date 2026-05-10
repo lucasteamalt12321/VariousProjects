@@ -2,11 +2,13 @@
 
 ## Current Focus
 
-Текущая задача: начать **Variant A** для `2_3_4_player_mini_games_v5_8_2.apk` - сделать Windows-запускаемый вариант через Android runtime/emulator и клавиатурный mapping. Репозиторий успешно синхронизирован с GitHub (origin/master) с разрешением конфликтов в пользу удаленной версии.
+**Прерванная задача:** Установка **OpenCode** на подключенный Android-телефон `0C64924I2510270B` через Termux. Требуется завершить настройку PATH и проверить запуск `opencode`.
+
+**Предыдущая задача (в паузе):** Начать **Variant A** для `2_3_4_player_mini_games_v5_8_2.apk` - сделать Windows-запускаемый вариант через Android runtime/emulator и клавиатурный mapping.
 
 ## User Request
 
-Пользователь уточнил: нужно не переписывать игру, а превратить APK в `.exe` или другой Windows-поддерживаемый запуск. После объяснения вариантов выбран Variant A.
+Пользователь уточнил: нужно не переписывать игру, а превратить APK в `.exe` или другой Windows-поддерживаемый запуск. После объяснения вариантов выбран Variant A. APK получен с телефона (`adb pull`).
 
 ## Known APK Facts
 
@@ -59,6 +61,15 @@
   - `windows-launcher/configs/ldplayer.example.json`
   - `windows-launcher/configs/nox.example.json`
 - Локально альтернативный Android runtime/emulator не найден: Android SDK emulator, LDPlayer, Nox, MEmu, Genymotion, MuMu, GameLoop и WSA не обнаружены в обычных путях/registry.
+
+## OpenCode on Phone (In Progress)
+
+- **Termux v0.118.3** установлен на телефон `0C64924I2510270B` через ADB (`adb install`).
+- **Node.js v25.8.2** установлен в Termux через `pkg install nodejs`.
+- **OpenCode v1.14.46** установлен в `~/.opencode/bin/` через официальный скрипт `curl -fsSL https://opencode.ai/install | bash`.
+- `~/.bashrc` модифицирован через ADB (добавлен `export PATH=...`), но требуется ручная проверка в Termux.
+- **Проблема:** ADB `input` service периодически падает с ошибкой `Failure calling service input: Failed transaction (2147483646)` при попытке отправки команд в Termux. Возможно, связано с блокировкой экрана или перегрузкой input service.
+- **Следующий шаг:** В Termux на телефоне выполнить `source ~/.bashrc` или перезапустить Termux, затем `opencode --version`.
 
 ## Notes
 
