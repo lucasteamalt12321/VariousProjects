@@ -29,7 +29,8 @@
 - 2026-05-01: `windows-launcher` успешно собран через `dotnet build`; dry-run с `--no-install` запустил `com.ction.playergames/.RunnerActivity` на подключенном Android-устройстве.
 - 2026-05-01: По просьбе пользователя BlueStacks исключен из текущей сессии; BlueStacks-specific code/config удалены. Добавлены runtime-neutral example configs для manual ADB, Android Studio Emulator, LDPlayer и Nox.
 - 2026-05-01: Проверка альтернативных runtime не нашла установленный Android Studio Emulator/LDPlayer/Nox/MEmu/Genymotion/MuMu/GameLoop/WSA. Launcher успешно собирается и manual ADB smoke test остается рабочим.
+- 2026-05-10: Синхронизация локального репозитория с GitHub. Применены изменения из удаленной ветки origin/master с приоритетом GitHub в случае конфликтов.
 
 ## last_checked_commit
 
-8bcc26e19929858a0571edc1efc311ee8d207c72
+ca64b82
