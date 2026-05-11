@@ -37,7 +37,12 @@
 - 2026-05-10: OpenCode v1.14.46 установлен в `~/.opencode/bin/` через официальный install-скрипт. Установка завершена успешно.
 - 2026-05-10: Попытки автоматической настройки PATH и проверки `opencode --version` через ADB `input text` привели к периодическим сбоям `input` service (`Failure calling service input: Failed transaction`). Требуется ручное завершение в Termux на устройстве.
 - 2026-05-10 (продолжение): Создан `/sdcard/setup_opencode.sh` и запущен в Termux. Команда `opencode --version` возвращает ошибку `bash: export: '--version': not a valid identifier`. Создан диагностический скрипт `/sdcard/diag.sh` для проверки содержимого `~/.opencode/bin/`. Проблема ещё не решена.
+- 2026-05-11: Для чтения экрана Termux без визуального ввода успешно использован `adb shell uiautomator dump`, так как модель не видит скриншоты напрямую.
+- 2026-05-11: Установка OpenCode напрямую в Termux обновлена до v1.14.48, но бинарник не запускается на Android/Termux (`cannot execute: required file not found`), вероятно из-за Linux/Android ABI/runtime несовместимости.
+- 2026-05-11: Установлен `proot-distro`, создан Debian (trixie) rootfs внутри Termux, внутри Debian установлен OpenCode v1.14.48 через официальный скрипт.
+- 2026-05-11: Проверка в Debian/proot успешна: `opencode --version` вернул `1.14.48`.
+- 2026-05-11: Создан запускатель `~/opencode-debian`; OpenCode успешно запущен на телефоне, UI показал prompt `Ask anything...` и версию `1.14.48`. Для будущего запуска: `./opencode-debian` в Termux.
 
 ## last_checked_commit
 
-bb9aab149558a98b41dd0f99fd91b10e8179171e
+0b90d64d56a569bb425a7b3c5421d371c3b7949e

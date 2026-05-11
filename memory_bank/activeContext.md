@@ -2,7 +2,7 @@
 
 ## Current Focus
 
-**Прерванная задача:** Установка **OpenCode** на подключенный Android-телефон `0C64924I2510270B` через Termux. Требуется завершить настройку PATH и проверить запуск `opencode`.
+**Текущая задача завершена:** **OpenCode** установлен и запущен на подключенном Android-телефоне `0C64924I2510270B` через Termux + Debian/proot.
 
 **Предыдущая задача (в паузе):** Начать **Variant A** для `2_3_4_player_mini_games_v5_8_2.apk` - сделать Windows-запускаемый вариант через Android runtime/emulator и клавиатурный mapping.
 
@@ -62,15 +62,17 @@
   - `windows-launcher/configs/nox.example.json`
 - Локально альтернативный Android runtime/emulator не найден: Android SDK emulator, LDPlayer, Nox, MEmu, Genymotion, MuMu, GameLoop и WSA не обнаружены в обычных путях/registry.
 
-## OpenCode on Phone (In Progress)
+## OpenCode on Phone (Completed)
 
 - **Termux v0.118.3** установлен на телефон `0C64924I2510270B` через ADB (`adb install`).
 - **Node.js v25.8.2** установлен в Termux через `pkg install nodejs`.
-- **OpenCode v1.14.46** установлен в `~/.opencode/bin/` через официальный скрипт `curl -fsSL https://opencode.ai/install | bash`.
-- Создан скрипт `/sdcard/setup_opencode.sh` для настройки PATH и проверки версии.
-- **Проблема при запуске:** `opencode --version` выдает ошибку `bash: export: '--version': not a valid identifier`. Возможно, бинарник отсутствует или файл `opencode` является shell-скриптом с некорректным заголовком.
-- Создан диагностический скрипт `/sdcard/diag.sh` для проверки содержимого `~/.opencode/bin/` и тестового запуска.
-- **Следующий шаг:** Запустить диагностический скрипт в Termux и по результатам решить: переустановить OpenCode, или исправить бинарник, или использовать альтернативный способ установки.
+- Прямая установка OpenCode в Termux через официальный скрипт скачивает бинарник, но он не исполняется на Android/Termux (`cannot execute: required file not found`), вероятно из-за Linux/Android ABI/runtime несовместимости.
+- Рабочее решение: установлен **Debian (trixie) через proot-distro** внутри Termux.
+- Внутри Debian установлен **OpenCode v1.14.48** через официальный скрипт `curl -fsSL https://opencode.ai/install | bash`.
+- Проверка успешна: `opencode --version` вернул `1.14.48`.
+- Создан запускатель в Termux: `~/opencode-debian`.
+- OpenCode успешно запущен на телефоне; UI показал prompt `Ask anything...` и версию `1.14.48`.
+- Для будущего запуска в Termux выполнить: `./opencode-debian`.
 
 ## Notes
 
