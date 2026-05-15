@@ -119,19 +119,20 @@
       { id: 19, name: 'Geometrical Dominator', song: 'GeometricalDominator.mp3' },
       { id: 20, name: 'Deadlocked', song: 'Deadlocked.mp3' },
       { id: 21, name: 'Fingerdash', song: 'Fingerdash.mp3' },
-      { id: 22, name: 'Dash', song: 'Dash.mp3' }
+      { id: 22, name: 'Dash', song: 'Dash.mp3' },
+      { id: 5001, name: 'The Nightmare', song: 'Clubstep.mp3' }
     ];
 
     function selectedLevelMeta() {
       var params = new URLSearchParams(window.location.search);
-      var level = parseInt(params.get('level') || '2', 10);
+      var level = parseInt(params.get('level') || '5001', 10);
       if (!Number.isFinite(level)) level = 2;
       return LEVELS.find(function (entry) { return entry.id === level; }) || LEVELS[0];
     }
 
     function updateTitleFromQuery() {
       var meta = selectedLevelMeta();
-      document.title = 'Geometry Dash - ' + meta.name;
+      document.title = 'Geometry Dash - The Nightmare';
     }
 
     function mountLevelSelector() {

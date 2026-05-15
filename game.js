@@ -148,6 +148,12 @@ const LEVEL_META = {
     name: "Dash",
     songFile: "Dash.mp3",
     songKey: "song_22"
+  },
+  0x1389: {
+    id: 0x1389,
+    name: "The Nightmare",
+    songFile: "Clubstep.mp3",
+    songKey: "the_nightmare"
   }
 };
 function Nn(_0x4f03fd) {
@@ -173,7 +179,7 @@ function Gn(_0x3078fc) {
   return "game_bg_" + String(_0x4aa312).padStart(0x2, '0');
 }
 function Pn() {
-    const _0x413273 = "assets/levels/2.txt";
+    const _0x413273 = "assets/levels/5001.txt";
   try {
     const _0x4a5094 = new URLSearchParams(window.location.search).get("level");
     if (!_0x4a5094) {
@@ -7268,11 +7274,11 @@ class ys {
     return 0.8 * this._userMusicVol;
   }
   ["_resolveSongKey"]() {
-    const _0x4b0c12 = this._scene.game.registry.get("selectedSongKey") || "stereo_madness";
+    const _0x4b0c12 = this._scene.game.registry.get("selectedSongKey") || "the_nightmare";
     if (this._scene.cache.audio.exists(_0x4b0c12)) {
       return _0x4b0c12;
     }
-    return "stereo_madness";
+    return "the_nightmare";
   }
   ["startMusic"]() {
     if (this._music) {
@@ -7716,7 +7722,7 @@ class GameScene extends Phaser.Scene {
       _0x426993.setTexture("GJ_WebSheet", _0x23c9e5 ? 'toggleFullscreenOff_001.png' : "toggleFullscreenOn_001.png");
       this._toggleFullscreen();
     });
-    this._pauseContainer.add(this.add.bitmapText(_0x13af33, 0x41, 'bigFont', "Stereo Madness", 0x28).setOrigin(0.5, 0.5));
+    this._pauseContainer.add(this.add.bitmapText(_0x13af33, 0x41, 'bigFont', "The Nightmare", 0x28).setOrigin(0.5, 0.5));
     const _0x46bab2 = this._bestPercent || 0x0;
     const _0x38b8d1 = this.add.image(_0x13af33, 0xaa, 'GJ_WebSheet', "GJ_progressBar_001.png").setTint(0x0).setAlpha(0.49019607843137253);
     this._pauseContainer.add(_0x38b8d1);
@@ -7877,10 +7883,10 @@ class GameScene extends Phaser.Scene {
     const _0x22e4c7 = this.add.bitmapText(_0xd1c6c2, _0x32bf66, 'goldFont', "Made by RobTop Games", 0x28).setOrigin(0.5, 0.5).setScale(0.6);
     this._infoPopup.add(_0x22e4c7);
     _0x32bf66 += 0x3c;
-    const _0x534a78 = this.add.bitmapText(_0xd1c6c2, _0x32bf66, "goldFont", "Song: Stereo Madness", 0x28).setOrigin(0.5, 0.5).setScale(0.6);
+    const _0x534a78 = this.add.bitmapText(_0xd1c6c2, _0x32bf66, "goldFont", "Song: Clubstep", 0x28).setOrigin(0.5, 0.5).setScale(0.6);
     this._infoPopup.add(_0x534a78);
     _0x32bf66 += 0x1e;
-    const _0x3cdf70 = this.add.bitmapText(_0xd1c6c2 - 0x14, _0x32bf66, "goldFont", "by ForeverBound", 0x28).setOrigin(0.5, 0.5).setScale(0.6);
+    const _0x3cdf70 = this.add.bitmapText(_0xd1c6c2 - 0x14, _0x32bf66, "goldFont", "by F-777", 0x28).setOrigin(0.5, 0.5).setScale(0.6);
     this._infoPopup.add(_0x3cdf70);
     const _0x274c3e = _0xd1c6c2 - 0xa + 0.6 * _0x3cdf70.width / 0x2;
     const _0x16b125 = this.add.image(_0x274c3e + 0x14 + 0x32 - 0xa, _0x32bf66 + 0x2, "GJ_WebSheet", 'gj_ytIcon_001.png').setScale(0.5).setInteractive();
