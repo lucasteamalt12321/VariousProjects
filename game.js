@@ -149,11 +149,17 @@ const LEVEL_META = {
     songFile: "Dash.mp3",
     songKey: "song_22"
   },
-  0x1389: {
-    id: 0x1389,
+  0x34cf: {
+    id: 0x34cf,
     name: "The Nightmare",
-    songFile: "Clubstep.mp3",
+    songFile: "Polargeist.mp3",
     songKey: "the_nightmare"
+  },
+  0x2e9c: {
+    id: 0x2e9c,
+    name: "Level Easy",
+    songFile: "StereoMadness.mp3",
+    songKey: "level_easy"
   }
 };
 function Nn(_0x4f03fd) {
@@ -175,11 +181,11 @@ function Dn(_0x43031d) {
   return LEVEL_META[_0x5ac7d0] || LEVEL_META[0x1];
 }
 function Gn(_0x3078fc) {
-  const _0x4aa312 = Math.max(0x1, Math.min(0x3b, parseInt(_0x3078fc || '2', 0xa) || 0x2));
+  const _0x4aa312 = Math.max(0x1, Math.min(0x16, parseInt(_0x3078fc || '2', 0xa) || 0x2));
   return "game_bg_" + String(_0x4aa312).padStart(0x2, '0');
 }
 function Pn() {
-    const _0x413273 = "assets/levels/5001.txt";
+    const _0x413273 = "assets/levels/13519.txt";
   try {
     const _0x4a5094 = new URLSearchParams(window.location.search).get("level");
     if (!_0x4a5094) {
@@ -4050,7 +4056,7 @@ const OBJECT_DEFS = {
     frame: 'portal_07_front_001.png',
     gridW: 0x1,
     gridH: 0x3,
-    sub: MODE_FLY
+    sub: MODE_CUBE
   },
   0xc8: {
     type: OBJ_SPEED,

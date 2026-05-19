@@ -13,13 +13,14 @@
   - The Nightmare level ID found/confirmed from search results: `13519`, creator Jax.
   - Attempts to fetch from GDBrowser / Boomlings were blocked with HTTP `403`.
   - `dash-geometry.org/hard/geometry-dash-the-nightmare-jax` was checked, but it embeds a Scratch project (`https://scratch.mit.edu/projects/383339683/embed`) rather than providing `.gmd` data.
-- Current code modifications include adding a placeholder/custom `The Nightmare` entry pointing to `assets/levels/5001.txt` with `Clubstep.mp3`; this is not the requested real `.gmd` conversion and should be revisited.
+- 2026-05-19: found a working direct Boomlings download path for level `13519` using POST to `downloadGJLevel22.php` with `levelID=13519`, `secret=Wmfd2893gb7`, empty `User-Agent`; extracted field `4`, base64url-decoded it, zlib-decompressed the GD level string, then gzip-compressed + base64url-encoded it for this runtime.
+- Added converted real The Nightmare level as `assets/levels/13519.txt` (~7,940 objects) and changed default/UI/runtime metadata from placeholder `5001`/`Clubstep` to real ID `13519`/`Polargeist`.
+- 2026-05-19: temporary fix for ball portal (ID 47) — the runtime doesn't implement ball mode physics, so ID 0x2f in `OBJECT_DEFS` was remapped from `MODE_FLY` (ship) to `MODE_CUBE` (cube) to prevent The Nightmare from turning the player into a ship at ball portals.
+- 2026-05-19: added popular early-era user level **Level Easy** (ID 11940, Cody, gameVersion Pre-1.7, ~107M downloads, official song Stereo Madness) as `assets/levels/11940.txt` (~1,983 objects). Added to `LEVEL_META` in `game.js` and level picker in `index.html`.
 
 ## Next recommended steps
 
-1. Implement a local converter script for `.gmd`/raw GD level strings into `assets/levels/<id>.txt`:
-   - Extract level data from `.gmd` (`k4` field or raw level string).
-   - gzip/deflate it in the same compatible format.
-   - base64url encode it, no padding.
-2. Obtain a valid `.gmd` or raw level string for The Nightmare (`13519`) from a source not blocked by 403, or ask user to provide the `.gmd` file.
-3. Replace placeholder `5001` mapping with the converted The Nightmare data once available.
+1. Browser-test `http://localhost:8000/?level=13519` and `http://localhost:8000/?level=11940`.
+2. Implement proper ball mode physics instead of the temporary cube-fallback for ball portals.
+3. If visuals/gameplay are broken, add/adjust `assets/levels/object_overrides.json` mappings for objects used by these levels.
+4. Consider adding a reusable local converter script instead of keeping the one-off Python command only in history.
